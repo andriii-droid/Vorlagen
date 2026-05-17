@@ -57,7 +57,9 @@ def generate_pdf():
                 num_shapes=int(p['num_shapes'].value),
                 size=int(p['size'].value),
                 shape=p['shape'].value,
-                can=c
+                can=c,
+                circles=int(circles.value),
+                lines=int(lines.value)
             )
         c.showPage()
         c.save()
@@ -121,6 +123,8 @@ with ui.grid(columns='1fr 1fr').classes('w-full max-w-6xl mx-auto my-10 gap-6 p-
         
         with ui.row().classes('w-full justify-between items-center mb-2'):
             ui.label('Patterns').classes('text-lg font-semibold text-slate-700')
+            circles = ui.switch('Circles', value=True)
+            lines = ui.switch('Lines', value=True)
             ui.button('Add Row', icon='add', on_click=add_pattern_row).props('outline size=sm color=primary')
 
         patterns_container = ui.column().classes('w-full gap-3 mb-6')

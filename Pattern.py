@@ -4,15 +4,18 @@ import math
 
 
 class Pattern:
-    def __init__(self, filename="output", shape="rect", num_shapes=1, size=100, can=None):
+    def __init__(self, filename="output", shape="rect", num_shapes=1, size=100, can=None, circles=False, lines=False):
         self.shape = shape
         self.num_shapes = num_shapes
         self.size = size
         self.c = can
         self.width, self.height = A6
         self.center = (self.width / 2 , self.height / 2)
+        self.circles = circles
+        self.lines = lines
         self.generate_shape()
-        self.c.circle(*self.center, r=3, stroke=0, fill=1)
+        if self.circles:
+            self.c.circle(*self.center, r=3, stroke=0, fill=1)
 
 
     def generate_shape(self):
@@ -35,14 +38,18 @@ class Pattern:
     def draw_square(self, angle=0):
         points = []
         points.append(self.new_point(self.center, self.size/2, 225+angle))
-        self.c.circle(*points[-1], r=1, stroke=0, fill=1) 
+        if self.circles:
+            self.c.circle(*points[-1], r=1, stroke=0, fill=1) 
         rotation_angle = angle
         for _ in range(3):
             points.append(self.new_point(points[-1], self.size/2*2**0.5, rotation_angle))
-            self.c.circle(*points[-1], r=1, stroke=0, fill=1)
-            self.c.line(*points[-2], *points[-1])
+            if self.circles:
+                self.c.circle(*points[-1], r=1, stroke=0, fill=1)
+            if self.lines:
+                self.c.line(*points[-2], *points[-1])
             rotation_angle += 90
-        self.c.line(*points[0], *points[-1])
+        if self.lines:
+            self.c.line(*points[0], *points[-1])
 
     def draw_triangle(self, angle=0):
         points = []
