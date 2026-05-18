@@ -29,7 +29,7 @@ def add_pattern_row():
     3: 'Triangle',
     4: 'Square',
     5: 'Pentagon'
-}
+    }
 
     with ui.row().classes('items-center w-full bg-slate-50 p-3 rounded-lg shadow-sm') as row:
         shape = ui.select(label='Shape', options=shape_options, value=3).classes('w-28')
@@ -136,6 +136,11 @@ with ui.grid(columns='1fr 1fr').classes('w-full max-w-6xl mx-auto my-10 gap-6 p-
         filename_input = ui.input(label='Filename', placeholder='output', suffix='.pdf').classes('w-full mb-4')
         
         ui.separator().classes('my-2')
+        with ui.row().classes('w-full justify-between items-center mb-2'):
+            ui.label('Center').classes('text-lg font-semibold text-slate-700')
+            num_center_points = ui.number(label='Points', value=1, min=1, step=1).classes('w-24')
+            radius = ui.slider(min=0, max=200, step=1, value=1).classes('w-32 intermediate-class')
+            ui.label().bind_text_from(radius, 'value').classes('w-12 text-right')
         
         with ui.row().classes('w-full justify-between items-center mb-2'):
             ui.label('Patterns').classes('text-lg font-semibold text-slate-700')
