@@ -23,7 +23,7 @@ def add_pattern_row():
     pattern_data = {'row': None, 'shape': None, 'num_shapes': None, 'size': None, 'hex': '#000000'}
 
     with ui.row().classes('items-center w-full bg-slate-50 p-3 rounded-lg shadow-sm') as row:
-        shape = ui.select(label='Shape', options=['rect', 'tri', 'pent'], value='rect').classes('w-28')
+        shape = ui.select(label='Shape', options=['rect', 'tri', 'pent', 'line'], value='rect').classes('w-28')
         num_shapes = ui.number(label='Number', value=20, min=1, step=1).classes('w-24')
         size = ui.number(label='Size', value=200, min=1).classes('w-24')
         ui.button(icon='delete', on_click=lambda: remove_pattern_row(row, pattern_data)).props('flat color=red')

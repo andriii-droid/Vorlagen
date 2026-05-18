@@ -40,11 +40,29 @@ class Pattern:
                 self.draw_triangle(angle)
             elif self.shape == "pent":
                 self.draw_pentagon(angle)
+            elif self.shape == "line":
+                self.draw_line(angle)
             else:
                 print(f"No Shape with the Name: {self.shape}")
                 break
                 
-            angle += step        
+            angle += step   
+
+    def draw_line(self, angle=0):
+        points = []
+        points.append(self.new_point(self.center, (self.size/2)*self.offset, 90+angle))
+        if self.circles:
+            self.c.circle(*points[-1], r=1, stroke=0, fill=1) 
+        rotation_angle = angle + 270
+        for _ in range(1):
+            points.append(self.new_point(points[-1], self.size, rotation_angle))
+            if self.circles:
+                self.c.circle(*points[-1], r=1, stroke=0, fill=1)
+            if self.lines or (self.sketch and angle==0):
+                self.c.line(*points[-2], *points[-1])
+            rotation_angle += 180
+        if self.lines or (self.sketch and angle==0):
+            self.c.line(*points[0], *points[-1])     
 
     def draw_square(self, angle=0):
         points = []
