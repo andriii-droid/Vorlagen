@@ -39,6 +39,8 @@ class Pattern:
                 self.draw_pentagon(angle)
             elif shape == "line":
                 self.draw_line(angle)
+            elif shape == "shape":
+                self.make_shape(angle=angle, center=self.center)
             else:
                 print(f"No Shape with the Name: {self.shape}")
                 break
@@ -126,3 +128,21 @@ class Pattern:
         y2 = y1 + dy
         
         return (x2, y2)
+    
+    def make_shape(self, center, angle=0, num_points=1):
+        points = []
+        points.append(self.new_point(center, (self.size/2)*self.offset, 90+angle))
+        if self.circles:
+            self.c.circle(*points[-1], r=1, stroke=0, fill=1) 
+        rotation_angle = -360/num_points/2 + angle
+        for _ in range(num_points - 1):
+            points.append(self.new_point(points[-1], self.size*math.sin(math.pi/num_points), rotation_angle)) #TODO
+            if self.circles:
+                self.c.circle(*points[-1], r=1, stroke=0, fill=1)
+            if self.lines or (self.sketch and angle==0):
+                self.c.line(*points[-2], *points[-1])
+            rotation_angle -= 360/num_points
+        if self.lines or (self.sketch and angle==0):
+            self.c.line(*points[0], *points[-1])
+
+        return points
