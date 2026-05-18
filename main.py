@@ -57,22 +57,19 @@ def generate_pdf():
         return
 
     try:
-        c = canvas.Canvas(str(pdf_path), pagesize=A6)
+        page = Pattern(filename=str(pdf_path), 
+                       circles=int(circles.value),
+                       lines=int(lines.value),
+                       sketch=int(sketch.value))
         for p in patterns_list:
-            Pattern(
-                filename=str(pdf_path),
+            page.generate_shape(
                 num_shapes=int(p['num_shapes'].value),
                 size=int(p['size'].value),
                 shape=p['shape'].value,
-                can=c,
-                circles=int(circles.value),
-                lines=int(lines.value),
                 col=p['hex'],
                 offset=float(p['offset'].value),
-                sketch=int(sketch.value)
             )
-        c.showPage()
-        c.save()
+        page.savePDF()
         
         ui.notify(f"Generated {pdf_path.name}!", type='positive')
         current_pdf_path = pdf_path

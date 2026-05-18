@@ -1,52 +1,53 @@
 from reportlab.lib.pagesizes import A6
 from reportlab.lib import colors
+from reportlab.pdfgen import canvas
 import math
 
 
 class Pattern:
-    def __init__(self, shape="rect", num_shapes=1, size=100, can=None, circles=False, lines=False, col='#000000', offset=1, sketch=False):
-        self.shape = shape
-        self.num_shapes = num_shapes
-        self.size = size
-        self.c = can
-        self.width, self.height = A6
-        self.center = (self.width / 2 , self.height / 2)
+    def __init__(self, filename='output', circles=False, lines=False, sketch=False):
         self.circles = circles
         self.lines = lines
-        self.col = col
-        self.offset = offset
         self.sketch = sketch
+        self.c = canvas.Canvas(filename, pagesize=A6)
+        self.width, self.height = A6
+        self.center = (self.width / 2 , self.height / 2)
 
-        self.generate_shape()
         if self.circles:
             self.c.circle(*self.center, r=3, stroke=0, fill=1)
 
-
-    def generate_shape(self):
-        self.c.setFillColor(self.col)
+    def generate_shape(self, shape="rect", num_shapes=1,  col='#000000',  size=100, offset=1):
+        self.col = col
+        self.size = size
+        self.offset = offset
+        self.c.setFillColor(col)
         angle = 0
-        step = 360 / self.num_shapes
-        for _ in range(self.num_shapes):
+        step = 360 / num_shapes
+        for _ in range(num_shapes):
             if angle == 0 and self.sketch:
                 self.c.setLineWidth(1)
                 self.c.setStrokeColor(colors.red)
             else:
                 self.c.setLineWidth(.2)
-                self.c.setStrokeColor(self.col)
+                self.c.setStrokeColor(col)
 
-            if self.shape == "rect":
+            if shape == "rect":
                 self.draw_square(angle)
-            elif self.shape == "tri":
+            elif shape == "tri":
                 self.draw_triangle(angle)
-            elif self.shape == "pent":
+            elif shape == "pent":
                 self.draw_pentagon(angle)
-            elif self.shape == "line":
+            elif shape == "line":
                 self.draw_line(angle)
             else:
                 print(f"No Shape with the Name: {self.shape}")
                 break
                 
             angle += step   
+
+    def savePDF(self):
+        self.c.showPage()
+        self.c.save()
 
     def draw_line(self, angle=0):
         points = []
