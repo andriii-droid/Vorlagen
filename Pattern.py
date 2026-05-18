@@ -4,7 +4,7 @@ import math
 
 
 class Pattern:
-    def __init__(self, filename="output", shape="rect", num_shapes=1, size=100, can=None, circles=False, lines=False, col='#000000', offset=1, sketch=False):
+    def __init__(self, shape="rect", num_shapes=1, size=100, can=None, circles=False, lines=False, col='#000000', offset=1, sketch=False):
         self.shape = shape
         self.num_shapes = num_shapes
         self.size = size
