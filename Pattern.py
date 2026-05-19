@@ -35,7 +35,8 @@ class Pattern:
 
             points = self.calc_shape(angle=angle, num_points=shape, center=self.center)
             if not line_points:
-                self.draw_shape(points, angle) 
+                self.draw_points(points)
+                self.draw_lines(points, angle)
             else:
                 pass
             angle += step   
@@ -65,10 +66,13 @@ class Pattern:
             points.append(self.new_point(points[-1], self.size*math.sin(math.pi/num_points), rotation_angle)) #TODO
             rotation_angle -= 360/num_points
         return points
-    
-    def draw_shape(self, points, angle):
+
+    def draw_points(self, points):
         for p1, p2 in zip(points, points[1:]+[points[0]]):
             if self.circles:
                 self.c.circle(*p1, r=1, stroke=0, fill=1)
+
+    def draw_lines(self, points, angle):
+        for p1, p2 in zip(points, points[1:]+[points[0]]):
             if self.lines or (self.sketch and angle == 0):
                 self.c.line(*p1, *p2)
