@@ -50,11 +50,28 @@ def add_pattern_row():
             .bind_visibility_from(line_type, 'value', backward=lambda v: v == 'dotted') 
         ui.button(icon='delete', on_click=lambda: remove_pattern_row(row, pattern_data)).props('flat color=red')
 
-        
-
-            
     pattern_data.update({'row': row, 'shape': shape, 'num_shapes': num_shapes, 'size': size, 'offset': offset, 'line_points': line_points})
     patterns_list.append(pattern_data)
+            
+def add_spline_row():
+    spline_data = {'row': None, 'shape': None, 'num_shapes': None, 'size': None, 'hex': '#000000','line_points': None}
+
+    shape_options = {
+    0: 'Spline',
+    1: 'Point',
+    2: 'Line',
+    3: 'Triangle',
+    4: 'Square',
+    5: 'Pentagon'
+    }
+
+    with ui.row().classes('items-center w-full bg-slate-50 p-3 rounded-lg shadow-sm') as row:
+        
+        ui.button(icon='delete', on_click=lambda: remove_pattern_row(row, spline_data)).props('flat color=red')
+
+            
+    # spline_data.update({'row': row, 'shape': shape, 'num_shapes': num_shapes, 'size': size, 'offset': offset, 'line_points': line_points})
+    patterns_list.append(spline_data)
 
 
 
@@ -169,7 +186,8 @@ with ui.grid(columns='1fr 1fr').classes('w-full max-w-6xl mx-auto my-10 gap-6 p-
             circles = ui.switch('Points', value=True)
             lines = ui.switch('Lines', value=True)
             sketch = ui.switch('Sketch', value=False)
-            ui.button('Add Row', icon='add', on_click=add_pattern_row).props('outline size=sm color=primary')
+            ui.button('Add Shape', icon='add', on_click=add_pattern_row).props('outline size=sm color=primary')
+            ui.button('Add Spline', icon='add', on_click=add_spline_row).props('outline size=sm color=primary')
 
         patterns_container = ui.column().classes('w-full gap-3 mb-6')
         with patterns_container:
