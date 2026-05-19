@@ -93,6 +93,7 @@ def generate_pdf():
                     shape=int(p['shape'].value),
                     col=p['hex'],
                     offset=float(p['offset'].value),
+                    line_points=int(p['line_points'].value)
                 )
         page.savePDF()
         

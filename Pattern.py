@@ -18,7 +18,7 @@ class Pattern:
         if self.circles:
             self.c.circle(*self.center, r=3, stroke=0, fill=1)
 
-    def generate_shape(self, shape="rect", num_shapes=1,  col='#000000',  size=100, offset=1):
+    def generate_shape(self, shape="rect", num_shapes=1,  col='#000000',  size=100, offset=1, line_points=0):
         self.col = col
         self.size = size
         self.offset = offset
@@ -34,7 +34,10 @@ class Pattern:
                 self.c.setStrokeColor(col)
 
             points = self.calc_shape(angle=angle, num_points=shape, center=self.center)
-            self.draw_shape(points, angle) 
+            if not line_points:
+                self.draw_shape(points, angle) 
+            else:
+                pass
             angle += step   
 
     def savePDF(self):
