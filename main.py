@@ -65,12 +65,12 @@ def add_spline_row():
             for i in range(3):
                 ui.label(f"Point {i+1}")
                 with ui.row():
-                    angle = ui.number(label='Angle', value=0, min=0, max=359, step=1).classes('w-24')
-                    dist = ui.number(label='Distance', value=20, min=1, step=1).classes('w-24')
+                    angle = ui.number(label='Angle', value=0, step=1).classes('w-24')
+                    dist = ui.number(label='Distance', value=100, min=1, step=1).classes('w-24')
                     points.append((angle, dist))
         with ui.column().classes('grow h-full bg-slate-50 p-3 rounded-lg shadow-sm items-start'):
             spline = ui.switch('Show Spline', value=False)
-            num_points = ui.number(label="Points", value=1, min=1, step=1).classes('w-24')
+            num_points = ui.number(label="Points", value=2, min=2, step=1).classes('w-24')
             ui.button(icon='delete', on_click=lambda: remove_splines_row(row, spline_data)).props('flat color=red')
 
             

@@ -1,4 +1,3 @@
-from Pattern import Pattern 
 import math
 from Point import Point
 
@@ -23,11 +22,9 @@ class Spline():
         if spline:
             self.pattern.c.drawPath(path, stroke=1)
 
-        even_points = self.get_even_points_on_curve(num_points=10)
+        even_points = self.get_even_points_on_curve(num_points=num_points)
         self.pattern.draw_points(even_points)
         
-    import math
-
     def get_even_points_on_curve(self, num_points=10):
         """
         Calculates physically evenly spaced points along a Cubic Bézier curve.
