@@ -19,7 +19,7 @@ current_pdf_path = None
 saved = False
 
 def add_pattern_row():
-    pattern_data = {'row': None, 'shape': None, 'num_shapes': None, 'size': None, 'hex': '#000000'}
+    pattern_data = {'row': None, 'shape': None, 'num_shapes': None, 'size': None, 'hex': '#000000','line_points': None}
 
     shape_options = {
     0: 'shape',
@@ -30,6 +30,10 @@ def add_pattern_row():
     5: 'Pentagon'
     }
 
+    def handle_type_change(e):
+        if e.value == 'full':
+            line_points.value = 0
+
     with ui.row().classes('items-center w-full bg-slate-50 p-3 rounded-lg shadow-sm') as row:
         shape = ui.select(label='Shape', options=shape_options, value=3).classes('w-28')
         num_shapes = ui.number(label='Number', value=20, min=1, step=1).classes('w-24')
@@ -39,10 +43,17 @@ def add_pattern_row():
             color = ui.color_picker(on_pick=lambda e: (button.style(f'background-color: {e.color} !important;'), 
                                                        pattern_data.update({'hex': e.color})))
         offset = ui.slider(min=0, max=1, step=0.01, value=1).classes('w-32')
-        ui.label().bind_text_from(offset, 'value')
+        ui.label().bind_text_from(offset, 'value').classes('w-6')
+        line_type = ui.select(label="Linetype", options=['full', 'dotted'], value='full').classes('w-26').on_value_change(handle_type_change)
+        line_points = ui.number(label="Points", value=0, min=0, step=1).classes('w-24') \
+            .bind_visibility_from(line_type, 'value', backward=lambda v: v == 'dotted') 
+        
+
             
-    pattern_data.update({'row': row, 'shape': shape, 'num_shapes': num_shapes, 'size': size, 'offset': offset})
+    pattern_data.update({'row': row, 'shape': shape, 'num_shapes': num_shapes, 'size': size, 'offset': offset, 'line_points': line_points})
     patterns_list.append(pattern_data)
+
+
 
 def remove_pattern_row(row_element, pattern_data):
     patterns_container.remove(row_element)
