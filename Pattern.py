@@ -2,6 +2,7 @@ from reportlab.lib.pagesizes import A6
 from reportlab.lib import colors
 from reportlab.pdfgen import canvas
 import math
+from Point import Point
 
 
 class Pattern:
@@ -11,7 +12,7 @@ class Pattern:
         self.sketch = sketch
         self.c = canvas.Canvas(filename, pagesize=A6)
         self.width, self.height = A6
-        self.center = (self.width / 2 , self.height / 2)
+        self.center = Point(self.width / 2 , self.height / 2)
 
 
         if self.circles:
