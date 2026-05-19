@@ -38,7 +38,6 @@ def add_pattern_row():
         shape = ui.select(label='Shape', options=shape_options, value=3).classes('w-28')
         num_shapes = ui.number(label='Number', value=20, min=1, step=1).classes('w-24')
         size = ui.number(label='Size', value=200, min=1).classes('w-24')
-        ui.button(icon='delete', on_click=lambda: remove_pattern_row(row, pattern_data)).props('flat color=red')
         with ui.button(icon='colorize') as button:
             color = ui.color_picker(on_pick=lambda e: (button.style(f'background-color: {e.color} !important;'), 
                                                        pattern_data.update({'hex': e.color})))
@@ -47,6 +46,8 @@ def add_pattern_row():
         line_type = ui.select(label="Linetype", options=['full', 'dotted'], value='full').classes('w-26').on_value_change(handle_type_change)
         line_points = ui.number(label="Points", value=0, min=0, step=1).classes('w-24') \
             .bind_visibility_from(line_type, 'value', backward=lambda v: v == 'dotted') 
+        ui.button(icon='delete', on_click=lambda: remove_pattern_row(row, pattern_data)).props('flat color=red')
+
         
 
             
