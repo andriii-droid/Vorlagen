@@ -12,9 +12,9 @@ class Spline():
         self.num_points = num_points
     
 
-        self.start_point = start_point# + self.pattern.center
-        self.control_point = control_point #+ self.pattern.center
-        self.end_point = end_point #+ self.pattern.center
+        self.start_point = start_point + self.pattern.center
+        self.control_point = control_point + self.pattern.center
+        self.end_point = end_point + self.pattern.center
 
         path = self.pattern.c.beginPath()
 

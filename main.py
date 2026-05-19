@@ -103,44 +103,44 @@ def generate_pdf():
         ui.notify("Please add at least one pattern or spline.", type='warning')
         return
 
-    # try:
-    page = Pattern(filename=str(pdf_path), 
-                    circles=int(circles.value),
-                    lines=int(lines.value),
-                    sketch=int(sketch.value))
-    shape = Shape(page, center_radius=int(radius.value))
-    spline = Spline(page)
-    center_points = shape.calc_shape(page.center, num_points=int(num_center_points.value))
-    for cp in center_points:
-        page.center = cp
-        for p in patterns_list:
-            shape.generate_shape(
-                num_shapes=int(p['num_shapes'].value),
-                size=int(p['size'].value),
-                shape=int(p['shape'].value),
-                col=p['hex'],
-                offset=float(p['offset'].value),
-                line_points=int(p['line_points'].value))
-        for s in splines_list:
-            spline.generate_spline(
-                spline=int(s['spline'].value),
-                num_points=int(s['num_points'].value),
-                start_point=(Point.from_polar(int(s['start_point'][0].value), int(s['start_point'][1].value))),
-                control_point=(Point.from_polar(int(s['control_point'][0].value), int(s['control_point'][1].value))),
-                end_point=(Point.from_polar(int(s['end_point'][0].value), int(s['end_point'][1].value))))
-            
-    page.savePDF()
+    try:
+        page = Pattern(filename=str(pdf_path), 
+                        circles=int(circles.value),
+                        lines=int(lines.value),
+                        sketch=int(sketch.value))
+        shape = Shape(page, center_radius=int(radius.value))
+        spline = Spline(page)
+        center_points = shape.calc_shape(page.center, num_points=int(num_center_points.value))
+        for cp in center_points:
+            page.center = cp
+            for p in patterns_list:
+                shape.generate_shape(
+                    num_shapes=int(p['num_shapes'].value),
+                    size=int(p['size'].value),
+                    shape=int(p['shape'].value),
+                    col=p['hex'],
+                    offset=float(p['offset'].value),
+                    line_points=int(p['line_points'].value))
+            for s in splines_list:
+                spline.generate_spline(
+                    spline=int(s['spline'].value),
+                    num_points=int(s['num_points'].value),
+                    start_point=(Point.from_polar(int(s['start_point'][0].value), int(s['start_point'][1].value))),
+                    control_point=(Point.from_polar(int(s['control_point'][0].value), int(s['control_point'][1].value))),
+                    end_point=(Point.from_polar(int(s['end_point'][0].value), int(s['end_point'][1].value))))
+                
+        page.savePDF()
+        
+        ui.notify(f"Generated {pdf_path.name}!", type='positive')
+        current_pdf_path = pdf_path
+        
+        # --- Update the PDF Viewer Section ---
+        # We point the iframe source to the local route we mapped earlier + a timestamp to force refresh
+        pdf_viewer.set_visibility(True)
+        pdf_frame.props(f'src="/download/{pdf_path.name}?t={time.time()}"')
     
-    ui.notify(f"Generated {pdf_path.name}!", type='positive')
-    current_pdf_path = pdf_path
-    
-    # --- Update the PDF Viewer Section ---
-    # We point the iframe source to the local route we mapped earlier + a timestamp to force refresh
-    pdf_viewer.set_visibility(True)
-    pdf_frame.props(f'src="/download/{pdf_path.name}?t={time.time()}"')
-    
-    # except Exception as e:
-    #     ui.notify(f"Error: {str(e)}", type='negative')
+    except Exception as e:
+        ui.notify(f"Error: {str(e)}", type='negative')
 
 def delete_current_pdf():
     global current_pdf_path
