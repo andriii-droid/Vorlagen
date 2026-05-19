@@ -22,7 +22,7 @@ def add_pattern_row():
     pattern_data = {'row': None, 'shape': None, 'num_shapes': None, 'size': None, 'hex': '#000000','line_points': None}
 
     shape_options = {
-    0: 'shape',
+    0: 'Spline',
     1: 'Point',
     2: 'Line',
     3: 'Triangle',
@@ -89,14 +89,17 @@ def generate_pdf():
         for cp in center_points:
             page.center = cp
             for p in patterns_list:
-                page.generate_shape(
-                    num_shapes=int(p['num_shapes'].value),
-                    size=int(p['size'].value),
-                    shape=int(p['shape'].value),
-                    col=p['hex'],
-                    offset=float(p['offset'].value),
-                    line_points=int(p['line_points'].value)
-                )
+                if int(p['shape'].value):   #Checks wheter an N-Eck or a spline needs to be created
+                    page.generate_shape(
+                        num_shapes=int(p['num_shapes'].value),
+                        size=int(p['size'].value),
+                        shape=int(p['shape'].value),
+                        col=p['hex'],
+                        offset=float(p['offset'].value),
+                        line_points=int(p['line_points'].value))
+                else:
+                    pass
+                
         page.savePDF()
         
         ui.notify(f"Generated {pdf_path.name}!", type='positive')
