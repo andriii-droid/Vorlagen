@@ -26,7 +26,7 @@ class Shape():
                 self.pattern.c.setLineWidth(.2)
                 self.pattern.c.setStrokeColor(col)
 
-            points = self.calc_shape(angle=angle, num_points=shape, center=self.pattern.center.cartesian)
+            points = self.calc_shape(angle=angle, num_points=shape, center=self.pattern.center)
             if line_points:
                 points = self.generate_points_on_shape(points=points, num_points=line_points)
 
@@ -53,13 +53,15 @@ class Shape():
             new_points.append(p1)
             for i in range(num_points+1)[1:]:
                 t = i / (num_points + 1)
-                x = p1[0] + t * (p2[0] - p1[0])
-                y = p1[1] + t * (p2[1] - p1[1])
-                new_points.append((x,y))
+                x1, y1 = p1.cartesian
+                x2, y2 = p2.cartesian
+                x = x1 + t * (x2 - x1)
+                y = y1 + t * (y2 - y1)
+                new_points.append(Point(x,y))
         return new_points
     
     def new_point(self, start_point, length, angle_degrees):
-        x1, y1 = start_point
+        x1, y1 = start_point.cartesian
         
         angle_radians = math.radians(angle_degrees)
         
@@ -69,4 +71,4 @@ class Shape():
         x2 = x1 + dx
         y2 = y1 + dy
         
-        return (x2, y2)
+        return Point(x2, y2)

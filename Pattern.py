@@ -25,9 +25,9 @@ class Pattern:
     def draw_points(self, points):
         for p1, p2 in zip(points, points[1:]+[points[0]]):
             if self.circles:
-                self.c.circle(*p1, r=1, stroke=0, fill=1)
+                self.c.circle(*p1.cartesian, r=1, stroke=0, fill=1)
 
     def draw_lines(self, points, angle, offset):
         for count, (p1, p2) in enumerate(zip(points, points[offset+2:]+points[0:offset+2])):
             if self.lines or(self.sketch and angle == 0 and not (offset)) or (self.sketch and offset and count == 0):
-                self.c.line(*p1, *p2)
+                self.c.line(*p1.cartesian, *p2.cartesian)

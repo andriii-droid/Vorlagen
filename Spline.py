@@ -87,6 +87,6 @@ class Spline():
             # Calculate final clean coordinate
             even_x = pt_start[0] + ratio * (pt_end[0] - pt_start[0])
             even_y = pt_start[1] + ratio * (pt_end[1] - pt_start[1])
-            even_points.append((even_x, even_y))
+            even_points.append(Point(even_x, even_y))
 
         return even_points

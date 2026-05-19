@@ -110,7 +110,7 @@ def generate_pdf():
                     sketch=int(sketch.value))
     shape = Shape(page, center_radius=int(radius.value))
     spline = Spline(page)
-    center_points = shape.calc_shape(page.center.cartesian, num_points=int(num_center_points.value))
+    center_points = shape.calc_shape(page.center, num_points=int(num_center_points.value))
     for cp in center_points:
         page.center = cp
         for p in patterns_list:
