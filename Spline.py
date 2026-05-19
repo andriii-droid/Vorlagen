@@ -20,7 +20,8 @@ class Spline():
 
         path.moveTo(*self.start_point.cartesian)
         path.curveTo(*self.start_point.cartesian, *self.control_point.cartesian, *self.end_point.cartesian)
-        self.pattern.c.drawPath(path, stroke=1)
+        if spline:
+            self.pattern.c.drawPath(path, stroke=1)
 
         even_points = self.get_even_points_on_curve(num_points=10)
         self.pattern.draw_points(even_points)
