@@ -15,6 +15,7 @@ static_dir.mkdir(exist_ok=True)
 app.add_static_files('/download', str(static_dir))
 
 patterns_list = []
+splines_list = []
 current_pdf_path = None
 saved = False
 
@@ -54,38 +55,35 @@ def add_pattern_row():
     patterns_list.append(pattern_data)
             
 def add_spline_row():
-    spline_data = {'row': None, 'shape': None, 'num_shapes': None, 'size': None, 'hex': '#000000','line_points': None}
-
-    shape_options = {
-    0: 'Spline',
-    1: 'Point',
-    2: 'Line',
-    3: 'Triangle',
-    4: 'Square',
-    5: 'Pentagon'
-    }
+    spline_data = {'row': None, 'spline': None, 'num_points': None, 'start_angle': None, 'start_distance': None,
+                    'control_angle': None, 'control_distance': None, 'end_angle': None, 'end_distance': None}
+    point_data = []
 
     with ui.row().classes('items-center w-full bg-slate-50 p-3 rounded-lg shadow-sm items-start') as row:
         with ui.column().classes('items-left bg-slate-50 p-3 rounded-lg shadow-sm'):
             for i in range(3):
                 ui.label(f"Point {i+1}")
                 with ui.row():
-                    ui.number(label='Distance', value=20, min=1, step=1).classes('w-24')
-                    ui.number(label='Angle', value=0, min=0, max=359, step=1).classes('w-24')
+                    point_data.append(ui.number(label='Angle', value=0, min=0, max=359, step=1).classes('w-24'))
+                    point_data.append(ui.number(label='Distance', value=20, min=1, step=1).classes('w-24'))
         with ui.column().classes('grow h-full bg-slate-50 p-3 rounded-lg shadow-sm items-start'):
             spline = ui.switch('Show Spline', value=False)
-            line_points = ui.number(label="Points", value=1, min=1, step=1).classes('w-24')
-            ui.button(icon='delete', on_click=lambda: remove_pattern_row(row, spline_data)).props('flat color=red')
+            num_points = ui.number(label="Points", value=1, min=1, step=1).classes('w-24')
+            ui.button(icon='delete', on_click=lambda: remove_splines_row(row, spline_data)).props('flat color=red')
 
             
-    # spline_data.update({'row': row, 'shape': shape, 'num_shapes': num_shapes, 'size': size, 'offset': offset, 'line_points': line_points})
-    patterns_list.append(spline_data)
-
+    spline_data.update({'row': row, 'spline': spline, 'num_points': num_points, 'start_angle': point_data[0], 'start_distance': point_data[1],
+                         'control_angle': point_data[2], 'control_distance': point_data[3], 'end_angle': point_data[4], 'end_distance': point_data[5]})
+    splines_list.append(spline_data)
 
 
 def remove_pattern_row(row_element, pattern_data):
     patterns_container.remove(row_element)
     patterns_list.remove(pattern_data)
+
+def remove_splines_row(row_element, pattern_data):
+    patterns_container.remove(row_element)
+    splines_list.remove(pattern_data)
 
 def generate_pdf():
     global current_pdf_path
@@ -114,16 +112,16 @@ def generate_pdf():
         for cp in center_points:
             page.center = cp
             for p in patterns_list:
-                if int(p['shape'].value):   #Checks wheter an N-Eck or a spline needs to be created
-                    page.generate_shape(
-                        num_shapes=int(p['num_shapes'].value),
-                        size=int(p['size'].value),
-                        shape=int(p['shape'].value),
-                        col=p['hex'],
-                        offset=float(p['offset'].value),
-                        line_points=int(p['line_points'].value))
-                else:
-                    page.generate_spline()
+                page.generate_shape(
+                    num_shapes=int(p['num_shapes'].value),
+                    size=int(p['size'].value),
+                    shape=int(p['shape'].value),
+                    col=p['hex'],
+                    offset=float(p['offset'].value),
+                    line_points=int(p['line_points'].value))
+            for s in splines_list:
+                print(s)
+                page.generate_spline()
                 
         page.savePDF()
         
