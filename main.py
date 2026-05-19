@@ -6,7 +6,7 @@ from pathlib import Path
 from Shape import Shape
 from Spline import Spline
 from Pattern import Pattern
-
+from Point import Point
 
 # Create a local directory to save PDFs if it doesn't exist
 # NiceGUI needs a static folder to serve local files safely to the browser
@@ -57,25 +57,25 @@ def add_pattern_row():
     patterns_list.append(pattern_data)
             
 def add_spline_row():
-    spline_data = {'row': None, 'spline': None, 'num_points': None, 'start_angle': None, 'start_distance': None,
-                    'control_angle': None, 'control_distance': None, 'end_angle': None, 'end_distance': None}
-    point_data = []
+    spline_data = {'row': None, 'spline': None, 'num_points': None, 'start_point': None, 'control_point': None, 'end_point': None}
+    points = []
 
     with ui.row().classes('items-center w-full bg-slate-50 p-3 rounded-lg shadow-sm items-start') as row:
         with ui.column().classes('items-left bg-slate-50 p-3 rounded-lg shadow-sm'):
             for i in range(3):
                 ui.label(f"Point {i+1}")
                 with ui.row():
-                    point_data.append(ui.number(label='Angle', value=0, min=0, max=359, step=1).classes('w-24'))
-                    point_data.append(ui.number(label='Distance', value=20, min=1, step=1).classes('w-24'))
+                    angle = ui.number(label='Angle', value=0, min=0, max=359, step=1).classes('w-24')
+                    dist = ui.number(label='Distance', value=20, min=1, step=1).classes('w-24')
+                    points.append(Point.from_polar(angle_degrees=int(angle.value), distance=int(dist.value)))
         with ui.column().classes('grow h-full bg-slate-50 p-3 rounded-lg shadow-sm items-start'):
             spline = ui.switch('Show Spline', value=False)
             num_points = ui.number(label="Points", value=1, min=1, step=1).classes('w-24')
             ui.button(icon='delete', on_click=lambda: remove_splines_row(row, spline_data)).props('flat color=red')
 
             
-    spline_data.update({'row': row, 'spline': spline, 'num_points': num_points, 'start_angle': point_data[0], 'start_distance': point_data[1],
-                         'control_angle': point_data[2], 'control_distance': point_data[3], 'end_angle': point_data[4], 'end_distance': point_data[5]})
+    spline_data.update({'row': row, 'spline': spline, 'num_points': num_points,
+                         'start_point': points[0], 'control_point': points[1], 'end_point': points[2]})
     splines_list.append(spline_data)
 
 
@@ -125,9 +125,9 @@ def generate_pdf():
                 spline.generate_spline(
                     spline=int(s['spline'].value),
                     num_points=int(s['num_points'].value),
-                    start_point=(int(s['start_angle'].value), int(s['start_distance'].value)),
-                    control_point=(int(s['control_angle'].value), int(s['control_distance'].value)),
-                    end_point=(int(s['end_angle'].value), int(s['end_distance'].value)))
+                    start_point=(s['start_point'].value),
+                    control_point=(s['control_point'].value),
+                    end_point=(s['end_point'].value))
                 
         page.savePDF()
         
