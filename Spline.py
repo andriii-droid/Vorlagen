@@ -5,28 +5,28 @@ from reportlab.lib import colors
 from reportlab.pdfgen import canvas
 
 class Spline():
-    def __init__(self, filename='output', circles=False, lines=False, sketch=False):
-        super().__init__(filename, circles, lines, sketch)
+    def __init__(self, pattern):
+        self.pattern = pattern
 
     def generate_spline(self):
 
-        path = self.c.beginPath()
-        cx, cy = self.center
+        path = self.pattern.c.beginPath()
+        cx, cy = self.pattern.center
         
 
         # Calculate start and end points manually
         startpoint = (cx + 50, cy-50)
         endpoint = (cx + 50, cy+50)
         path.moveTo(startpoint[0], startpoint[1])
-        path.curveTo(startpoint[0],startpoint[1], self.center[0], self.center[1], endpoint[0],endpoint[1])
-        self.c.drawPath(path, stroke=1)
+        path.curveTo(startpoint[0],startpoint[1], self.pattern.center[0], self.pattern.center[1], endpoint[0],endpoint[1])
+        self.pattern.c.drawPath(path, stroke=1)
 
         even_points = self.get_even_points_on_curve(startpoint, 
                                                          startpoint, 
-                                                         self.center,
+                                                         self.pattern.center,
                                                          endpoint,
                                                          num_points=10)
-        self.draw_points(even_points)
+        self.pattern.draw_points(even_points)
         
     import math
 

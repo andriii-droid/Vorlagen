@@ -109,8 +109,8 @@ def generate_pdf():
                        lines=int(lines.value),
                        sketch=int(sketch.value))
         shape = Shape(page, center_radius=int(radius.value))
+        spline = Spline(page)
         center_points = shape.calc_shape(page.center, num_points=int(num_center_points.value))
-        print(center_points)
         for cp in center_points:
             page.center = cp
             for p in patterns_list:
@@ -122,7 +122,7 @@ def generate_pdf():
                     offset=float(p['offset'].value),
                     line_points=int(p['line_points'].value))
             for s in splines_list:
-                page.generate_spline(
+                spline.generate_spline(
 
                 )
                 
