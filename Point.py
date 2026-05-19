@@ -14,6 +14,20 @@ class Point:
         x = math.cos(angle_rad) * distance
         y = math.sin(angle_rad) * distance
         return cls(x, y) # Calls __init__ with the calculated x and y
+    
+    def __add__(self, other):
+        """Allows: new_point = p1 + p2"""
+        if not isinstance(other, Point):
+            return NotImplemented
+        # Vector addition: add X components together, and Y components together
+        return Point(x=self._x + other._x, y=self._y + other._y)
+
+    def __sub__(self, other):
+        """Allows: new_point = p1 - p2"""
+        if not isinstance(other, Point):
+            return NotImplemented
+        # Vector subtraction: subtract other components from self
+        return Point(x=self._x - other._x, y=self._y - other._y)
 
     # --- Getters (Properties) ---
     @property
@@ -25,6 +39,8 @@ class Point:
         angle = math.degrees(math.atan2(self._y, self._x)) % 360
         distance = math.hypot(self._x, self._y) # Cleaner way to do (x^2 + y^2)^0.5
         return (round(angle, 10), round(distance, 10))
+    
+
 
 if __name__ == '__main__':
     p = Point(1,1)
