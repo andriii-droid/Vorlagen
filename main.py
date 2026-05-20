@@ -107,7 +107,8 @@ def generate_pdf():
         page = Pattern(filename=str(pdf_path), 
                         circles=int(circles.value),
                         lines=int(lines.value),
-                        sketch=int(sketch.value))
+                        sketch=int(sketch.value),
+                        cord=int(cord.value))
         shape = Shape(page, center_radius=int(radius.value))
         spline = Spline(page)
         center_points = shape.calc_shape(page.center, num_points=int(num_center_points.value))
@@ -185,6 +186,7 @@ with ui.grid(columns='1fr 1fr').classes('w-full max-w-6xl mx-auto my-10 gap-6 p-
         ui.label('PDF Pattern Generator').classes('text-2xl font-bold text-slate-800 mb-2')
         
         filename_input = ui.input(label='Filename', placeholder='output', suffix='.pdf').classes('w-full mb-4')
+        cord = ui.switch('Cordinates', value=False)
         
         ui.separator().classes('my-2')
         with ui.row().classes('w-full justify-between items-center mb-2'):

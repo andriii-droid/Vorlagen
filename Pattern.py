@@ -6,7 +6,7 @@ from Point import Point
 
 
 class Pattern:
-    def __init__(self, filename='output', circles=False, lines=False, sketch=False):
+    def __init__(self, filename='output', circles=False, lines=False, sketch=False, cord=False):
         self.circles = circles
         self.lines = lines
         self.sketch = sketch
