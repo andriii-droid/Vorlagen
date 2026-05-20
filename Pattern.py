@@ -18,6 +18,19 @@ class Pattern:
         if self.circles:
             self.c.circle(*self.center.cartesian, r=3, stroke=0, fill=1)
 
+        if cord:
+            self.c.setLineWidth(.05)
+            self.c.setStrokeColor(colors.gray)
+            self.c.circle(*self.center.cartesian, r=50, stroke=1, fill=0)
+            self.c.circle(*self.center.cartesian, r=100, stroke=1, fill=0)
+            self.c.circle(*self.center.cartesian, r=25, stroke=1, fill=0)
+            startx = Point(x=0, y=self.center.cartesian[1])
+            endx = Point(x=self.width, y=self.center.cartesian[1])
+            self.c.line(*startx.cartesian, *endx.cartesian)
+            starty = Point(x=self.center.cartesian[0], y=0)
+            endy = Point(x=self.center.cartesian[0], y=self.height)
+            self.c.line(*starty.cartesian, *endy.cartesian)
+
     def savePDF(self):
         self.c.showPage()
         self.c.save()
@@ -30,4 +43,5 @@ class Pattern:
     def draw_lines(self, points, angle, offset):
         for count, (p1, p2) in enumerate(zip(points, points[offset+2:]+points[0:offset+2])):
             if self.lines or(self.sketch and angle == 0 and not (offset)) or (self.sketch and offset and count == 0):
+                self.c.setLineWidth(.2)
                 self.c.line(*p1.cartesian, *p2.cartesian)
