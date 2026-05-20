@@ -2,26 +2,30 @@ import math
 from Point import Point
 
 class Spline():
+    '''calculates a spline and can draw points on that spline'''
     def __init__(self, pattern):
+        '''creates a spline object and links parent pattern'''
         self.pattern = pattern
 
     def generate_spline(self, spline=False, num_points=2, start_point=None,
                         control_point=None, end_point=None):
+        '''generates spline and points, given the parameters they get get drawn'''
         self.spline = spline
         self.num_points = num_points
     
-
+        #calculates the startpoint in relation to the centerpoint
         self.start_point = start_point + self.pattern.center
         self.control_point = control_point + self.pattern.center
         self.end_point = end_point + self.pattern.center
 
+        #dcalculates and draws the spline
         path = self.pattern.c.beginPath()
-
         path.moveTo(*self.start_point.cartesian)
         path.curveTo(*self.start_point.cartesian, *self.control_point.cartesian, *self.end_point.cartesian)
         if spline:
             self.pattern.c.drawPath(path, stroke=1)
 
+        #calculates and draws the points on the spline
         even_points = self.get_even_points_on_curve(num_points=num_points)
         self.pattern.draw_points(even_points)
         
