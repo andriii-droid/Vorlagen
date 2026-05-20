@@ -5,9 +5,9 @@ from Point import Point
 
 
 class Pattern:
+    '''implemets Functions to draw Points and Lines and creates a canvas'''
     def __init__(self, filename='output', circles=False, lines=False, sketch=False, cord=False):
-        '''Creates a Pattern Instance, which creates a pdf canvas. 
-        It implemets Functions to draw Points and Lines'''
+        '''Creates a Pattern Instance, which creates a pdf canvas'''
         self.circles = circles
         self.lines = lines
         self.sketch = sketch
