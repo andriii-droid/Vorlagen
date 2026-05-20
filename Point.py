@@ -28,7 +28,12 @@ class Point:
             return NotImplemented
         # Vector subtraction: subtract other components from self
         return Point(x=self._x - other._x, y=self._y - other._y)
-
+    
+    def distance(self, other):
+        if not isinstance(other, Point):
+            return NotImplemented
+        return ((self._x - other._x)**2 + (self._y - other._y)**2)**0.5
+    
     # --- Getters (Properties) ---
     @property
     def cartesian(self):
@@ -39,6 +44,7 @@ class Point:
         angle = math.degrees(math.atan2(self._y, self._x)) % 360
         distance = math.hypot(self._x, self._y) # Cleaner way to do (x^2 + y^2)^0.5
         return (round(angle, 10), round(distance, 10))
+
     
 
 
