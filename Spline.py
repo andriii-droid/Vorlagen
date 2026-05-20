@@ -23,6 +23,7 @@ class Spline():
         path.moveTo(*self.start_point.cartesian)
         path.curveTo(*self.start_point.cartesian, *self.control_point.cartesian, *self.end_point.cartesian)
         if spline:
+            self.pattern.c.setLineWidth(.2)
             self.pattern.c.drawPath(path, stroke=1)
 
         #calculates and draws the points on the spline

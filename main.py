@@ -64,7 +64,7 @@ def add_spline_row():
             for i in range(3):
                 ui.label(f"Point {i+1}")
                 with ui.row():
-                    angle = ui.number(label='Angle', value=0, step=1).classes('w-24')
+                    angle = ui.number(label='Angle', value=(i-1)*45, step=1).classes('w-24')
                     dist = ui.number(label='Distance', value=100, min=1, step=1).classes('w-24')
                     points.append((angle, dist))
         with ui.column().classes('grow h-full bg-slate-50 p-3 rounded-lg shadow-sm items-start'):
