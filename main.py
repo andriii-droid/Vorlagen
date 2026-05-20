@@ -26,7 +26,6 @@ def add_pattern_row():
 
     shape_options = {
     0: 'Spline',
-    1: 'Point',
     2: 'Line',
     3: 'Triangle',
     4: 'Square',
