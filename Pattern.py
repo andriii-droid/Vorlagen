@@ -17,6 +17,9 @@ class Pattern:
 
         self.draw_points([self.center], r=2) #Draw the Center Point
 
+        #Draw lines on the Edge of PDF
+        self.draw_lines([Point(0,0), Point(self.width, 0), Point(self.width, self.height), Point(0, self.height)],
+                         angle=0, offset=-1)
         if cord:    #Draw coordinate System
             self.c.setLineWidth(.05)
             self.c.setStrokeColor(colors.gray)
