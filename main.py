@@ -35,8 +35,10 @@ def add_pattern_row():
     def handle_type_change(e):
         if e.value == 'line':
             line_points.value = -1
+            num_shapes.value = 20
         if e.value == 'dotted':
             line_points.value = 5
+            num_shapes.value = 1
 
     with ui.row().classes('items-center w-full bg-slate-50 p-3 rounded-lg shadow-sm') as row:
         shape = ui.select(label='Shape', options=shape_options, value=3).classes('w-28')
