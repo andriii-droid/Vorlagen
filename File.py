@@ -87,10 +87,11 @@ class File():
         start = "M17 ; Enable all stepper motors\n"
         start += "G90 ; Set to Absolute Positioning\n"
         start += "M83 ; Set extruder to relative mode\n"
+        start += "G1 Z40 F1200\n"
+        start += "M109 R40 ; Cool down Nozzle before Homing\n"
         start += "G28 ; Home all axes\n"
-        start += "G1 Z10 F1200 ; Lift nozzle to 10mm quickly for safety\n"
-        start += "G1 X20 Y20 F4800 ; Move to a safe starting area away from the edge\n"
-        start += "G1 Z5 F1200 ; Drop down to your target 5mm Z-height\n"
+        start += "G1 Z20 F1200 ; Lift nozzle to 20mm quickly for safety\n"
+        start += f"G1 X{offset_x} Y{offset_y} F4800 ; Move over the Homing Point, if set correctly\n"
         end = "G1 Z20 F1200 ; Lift nozzle safely up to 20mm when done\n"
         end += "G1 X0 Y200 F4800 ; Present the bed (pushes bed forward, moves X to 0)\n"
         end += "M84 ; Disable stepper motors\n"
@@ -101,8 +102,8 @@ class File():
             f.write(start)
             for p in self.page.points:
                 f.write(f"G1 X{p.cartesian[0]*conversion_fac + offset_x} Y{p.cartesian[1]*conversion_fac + offset_y} F1200;\n")
-                f.write("G1 Z3 F1200\n")
-                f.write("G1 Z5 F1200\n" \
+                f.write("G1 Z15 F1200\n")
+                f.write("G1 Z20 F1200\n" \
                 "")
             f.write(end)
 
