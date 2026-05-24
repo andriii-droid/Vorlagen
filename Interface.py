@@ -6,11 +6,7 @@ from File import File
 class Interface():
     '''Creates the UI Components of the application'''
     def __init__(self):
-        self.static_dir = Path("./static")
-        self.static_dir.mkdir(exist_ok=True)
-
-        app.add_static_files('/download', str(self.static_dir))
-
+ 
         self.patterns_list = []
         self.splines_list = []
         f = File(self)

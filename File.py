@@ -13,16 +13,20 @@ class File():
     def __init__(self, Interface):
         self.current_pdf_path = None
         self.I = Interface
+        self.TMP_DIR = tempfile.gettempdir()
+        app.add_static_files('/tmp_download', self.TMP_DIR)
 
     def generate_pdf(self, path=None):
         if path is None:
             with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
                 pdf_path = Path(tmp.name)
         else:
+            static_dir = Path("./static")
+            static_dir.mkdir(exist_ok=True)
             try:
-                pdf_path = self.I.static_dir / Path(path.strip()).with_suffix(".pdf")
+                pdf_path = static_dir / Path(path.strip()).with_suffix(".pdf")
             except Exception as e:
-                pdf_path = self.I.static_dir / Path("output").with_suffix(".pdf")
+                pdf_path = static_dir / Path("output").with_suffix(".pdf")
                 ui.notify(f"No filename provided", type='warning')
             ui.notify(f"Saved {pdf_path.name} successfully.", type='positive')
 
@@ -65,9 +69,11 @@ class File():
             
             # --- Update the PDF Viewer Section ---
             # We point the iframe source to the local route we mapped earlier + a timestamp to force refresh
-            self.I.pdf_viewer.set_visibility(True)
-            self.I.pdf_frame.props(f'src="/download/{pdf_path.name}?t={time.time()}"')
-        
+            if path is None:
+                self.I.pdf_viewer.set_visibility(True)
+                self.I.pdf_frame.props(f'src="/tmp_download/{pdf_path.name}?t={time.time()}"')     
+            else:
+                self.I.pdf_viewer.set_visibility(False)
         except Exception as e:
             ui.notify(f"Error: {str(e)}", type='negative')
 
