@@ -83,6 +83,8 @@ class File():
         self.generate_pdf(path=path)
 
     def generate_gcode(self):
+        offset_x = float(self.I.gcode_x.value) + 5   #Calculate Offset: 5 for homing point relative to card edge, and the input for correction to homing edge
+        offset_y = float(self.I.gcode_y.value) + 5
         '''generates a gcode file using the points as coordinates'''
         start = "M17 ; Enable all stepper motors\n"
         start += "G90 ; Set to Absolute Positioning\n"
@@ -91,19 +93,18 @@ class File():
         start += "M109 R40 ; Cool down Nozzle before Homing\n"
         start += "G28 ; Home all axes\n"
         start += "G1 Z20 F1200 ; Lift nozzle to 20mm quickly for safety\n"
-        start += f"G1 X{offset_x} Y{offset_y} F4800 ; Move over the Homing Point, if set correctly\n"
-        end = "G1 Z20 F1200 ; Lift nozzle safely up to 20mm when done\n"
+        start += f"G1 X{self.I.gcode_x.value} Y{self.I.gcode_y.value} F4800 ; Move over the Homing Point, if set correctly\n"
+        end = "G1 Z40 F1200 ; Lift nozzle safely up to 20mm when done\n"
         end += "G1 X0 Y200 F4800 ; Present the bed (pushes bed forward, moves X to 0)\n"
         end += "M84 ; Disable stepper motors\n"
         conversion_fac = 25.4/72
-        offset_x = int(self.I.gcode_x.value) + 10   #Calculate Offset: 10 for homing point relative to card edge, and the input for correction to homing edge
-        offset_y = int(self.I.gcode_y.value) + 10
+
         with open("myGCode.gcode", "w") as f:
             f.write(start)
             for p in self.page.points:
                 f.write(f"G1 X{p.cartesian[0]*conversion_fac + offset_x} Y{p.cartesian[1]*conversion_fac + offset_y} F1200;\n")
-                f.write("G1 Z15 F1200\n")
-                f.write("G1 Z20 F1200\n" \
+                f.write("G1 Z0 F1200\n")
+                f.write("G1 Z15 F1200\n" \
                 "")
             f.write(end)
 
