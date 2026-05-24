@@ -82,7 +82,7 @@ class File():
         self.current_pdf_path = None
         self.generate_pdf(path=path)
 
-    def generate_gcode(self, path=None):
+    def generate_gcode(self, path=""):
         offset_x = float(self.I.gcode_x.value) + 5   #Calculate Offset: 5 for homing point relative to card edge, and the input for correction to homing edge
         offset_y = float(self.I.gcode_y.value) + 5
         '''generates a gcode file using the points as coordinates'''
@@ -97,14 +97,18 @@ class File():
         end = "G1 Z40 F1200 ; Lift nozzle safely up to 20mm when done\n"
         end += "G1 X0 Y200 F4800 ; Present the bed (pushes bed forward, moves X to 0)\n"
         end += "M84 ; Disable stepper motors\n"
+        
         conversion_fac = 25.4/72
         static_dir = Path("./gcode")
         static_dir.mkdir(exist_ok=True)
 
-        if path is None:
+        if path == "":
             path = "output.gcode"
 
-        with open(static_dir / Path(path.strip()).with_suffix(".gcode"), "w") as f:
+        file_name = Path(path.strip()).with_suffix(".gcode").name
+        output_path = static_dir / file_name
+
+        with open(output_path, "w") as f:
             f.write(start)
             for p in self.page.points:
                 f.write(f"G1 X{p.cartesian[0]*conversion_fac + offset_x} Y{p.cartesian[1]*conversion_fac + offset_y} F1200;\n")
