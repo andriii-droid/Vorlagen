@@ -95,27 +95,27 @@ class Interface():
 
         def handle_type_change(e):
             if e.value == 'line':
-                self.line_points.value = -1
-                self.num_shapes.value = 20
+                line_points.value = -1
+                num_shapes.value = 20
             if e.value == 'dotted':
-                self.line_points.value = 5
-                self.num_shapes.value = 1
+                line_points.value = 5
+                num_shapes.value = 1
 
         with ui.row().classes('items-center w-full bg-slate-50 p-3 rounded-lg shadow-sm') as row:
-            self.shape = ui.select(label='Shape', options=shape_options, value=3).classes('w-28')
-            self.num_shapes = ui.number(label='Number', value=20, min=1, step=1).classes('w-24')
-            self.size = ui.number(label='Size', value=200, min=1).classes('w-24')
+            shape = ui.select(label='Shape', options=shape_options, value=3).classes('w-28')
+            num_shapes = ui.number(label='Number', value=20, min=1, step=1).classes('w-24')
+            size = ui.number(label='Size', value=200, min=1).classes('w-24')
             with ui.button(icon='colorize') as button:
-                self.color = ui.color_picker(on_pick=lambda e: (button.style(f'background-color: {e.color} !important;'), 
+                color = ui.color_picker(on_pick=lambda e: (button.style(f'background-color: {e.color} !important;'), 
                                                         pattern_data.update({'hex': e.color})))
-            self.offset = ui.slider(min=0, max=1, step=0.01, value=1).classes('w-32')
-            ui.label().bind_text_from(self.offset, 'value').classes('w-6')
-            self.line_type = ui.select(label="Linetype", options=['line', 'dotted'], value='line').classes('w-26').on_value_change(handle_type_change)
-            self.line_points = ui.number(label="Points", value=-1, min=-1, step=1).classes('w-24') \
-                .bind_visibility_from(self.line_type, 'value', backward=lambda v: v == 'dotted') 
+            offset = ui.slider(min=0, max=1, step=0.01, value=1).classes('w-32')
+            ui.label().bind_text_from(offset, 'value').classes('w-6')
+            line_type = ui.select(label="Linetype", options=['line', 'dotted'], value='line').classes('w-26').on_value_change(handle_type_change)
+            line_points = ui.number(label="Points", value=-1, min=-1, step=1).classes('w-24') \
+                .bind_visibility_from(line_type, 'value', backward=lambda v: v == 'dotted') 
             ui.button(icon='delete', on_click=lambda: self.remove_pattern_row(row, pattern_data)).props('flat color=red')
 
-        pattern_data.update({'row': row, 'shape': self.shape, 'num_shapes': self.num_shapes, 'size': self.size, 'offset': self.offset, 'line_points': self.line_points})
+        pattern_data.update({'row': row, 'shape': shape, 'num_shapes': num_shapes, 'size': size, 'offset': offset, 'line_points': line_points})
         self.patterns_list.append(pattern_data)
 
     def add_spline_row(self):
@@ -127,16 +127,16 @@ class Interface():
                 for i in range(3):
                     ui.label(f"Point {i+1}")
                     with ui.row():
-                        self.angle = ui.number(label='Angle', value=(i-1)*45, step=1).classes('w-24')
-                        self.dist = ui.number(label='Distance', value=100, min=1, step=1).classes('w-24')
-                        points.append((self.angle, self.dist))
+                        angle = ui.number(label='Angle', value=(i-1)*45, step=1).classes('w-24')
+                        dist = ui.number(label='Distance', value=100, min=1, step=1).classes('w-24')
+                        points.append((angle, dist))
             with ui.column().classes('grow h-full bg-slate-50 p-3 rounded-lg shadow-sm items-start'):
-                self.spline = ui.switch('Show Spline', value=False)
-                self.num_points = ui.number(label="Points", value=2, min=2, step=1).classes('w-24')
+                spline = ui.switch('Show Spline', value=False)
+                num_points = ui.number(label="Points", value=2, min=2, step=1).classes('w-24')
                 ui.button(icon='delete', on_click=lambda: self.remove_splines_row(row, spline_data)).props('flat color=red')
 
                 
-        spline_data.update({'row': row, 'spline': self.spline, 'num_points': self.num_points,
+        spline_data.update({'row': row, 'spline': spline, 'num_points': num_points,
                             'start_point': points[0], 'control_point': points[1], 'end_point': points[2]})
         self.splines_list.append(spline_data)
 
@@ -149,15 +149,12 @@ class Interface():
         self.splines_list.remove(pattern_data)
 
     def generate_pdf(self):
-        # global current_pdf_path
-        # global saved
         if not self.saved:
             self.delete_current_pdf()
             saved = False
 
         raw_filename = self.filename_input.value.strip() or "output"
         
-        # Force the PDF to be saved inside our static directory
         pdf_path = self.static_dir / Path(raw_filename).with_suffix(".pdf")
         
         if not self.patterns_list and not self.splines_list:
@@ -205,7 +202,6 @@ class Interface():
             ui.notify(f"Error: {str(e)}", type='negative')
 
     def delete_current_pdf(self):
-        # global current_pdf_path
         if self.current_pdf_path and self.current_pdf_path.exists():
             try:
                 # 1. Clear iframe source so the browser releases the file lock
@@ -224,8 +220,6 @@ class Interface():
             ui.notify("No generated file found to delete.", type='warning')
 
     def save_current_pdf(self):
-        # global current_pdf_path
-        # global saved
         ui.notify(f"Saved {self.current_pdf_path.name} successfully.", type='positive')
         self.pdf_viewer.set_visibility(False)
         self.filename_input.value = ""
