@@ -97,7 +97,7 @@ class File():
         end = "G1 Z40 F1200 ; Lift nozzle safely up to 20mm when done\n"
         end += "G1 X0 Y200 F4800 ; Present the bed (pushes bed forward, moves X to 0)\n"
         end += "M84 ; Disable stepper motors\n"
-        
+
         conversion_fac = 25.4/72
         static_dir = Path("./gcode")
         static_dir.mkdir(exist_ok=True)
@@ -116,6 +116,7 @@ class File():
                 f.write("G1 Z15 F1200\n" \
                 "")
             f.write(end)
+        ui.notify(f"Generated {output_path.name}!", type='positive')
 
                 
 
