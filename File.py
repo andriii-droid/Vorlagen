@@ -95,10 +95,12 @@ class File():
         end += "G1 X0 Y200 F4800 ; Present the bed (pushes bed forward, moves X to 0)\n"
         end += "M84 ; Disable stepper motors\n"
         conversion_fac = 25.4/72
+        offset_x = int(self.I.gcode_x.value) + 10
+        offset_y = int(self.I.gcode_y.value) + 10
         with open("myGCode.gcode", "w") as f:
             f.write(start)
             for p in self.page.points:
-                f.write(f"G1 X{p.cartesian[0]*conversion_fac} Y{p.cartesian[1]*conversion_fac} F1200;\n")
+                f.write(f"G1 X{p.cartesian[0]*conversion_fac + offset_x} Y{p.cartesian[1]*conversion_fac + offset_y} F1200;\n")
                 f.write("G1 Z3 F1200\n")
                 f.write("G1 Z5 F1200\n" \
                 "")
