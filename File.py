@@ -68,8 +68,6 @@ class File():
                 ui.notify(f"Generated {pdf_path.name}!", type='positive')
             self.current_pdf_path = pdf_path
             
-            # --- Update the PDF Viewer Section ---
-            # We point the iframe source to the local route we mapped earlier + a timestamp to force refresh
             if path is None:
                 self.I.pdf_viewer.set_visibility(True)
                 self.I.pdf_frame.props(f'src="/tmp_download/{pdf_path.name}?t={time.time()}"')     
