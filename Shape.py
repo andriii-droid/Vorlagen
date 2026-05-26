@@ -20,6 +20,7 @@ class Shape():
         self.size = size
         self.offset = offset
         self.pattern.c.setFillColor(col)
+        points_list = []
         angle = 0
         step = 360 / num_shapes
         for _ in range(num_shapes):     #calls calc_shape multiple times
@@ -29,13 +30,13 @@ class Shape():
             points = self.calc_shape(angle=angle, num_points=shape, center=self.pattern.center)
             if line_points: #if there should be points genereted on each line, it gets calculated here
                 points = self.generate_points_on_shape(points=points, num_points=line_points)
-
+            points_list.extend(points)
             #Draw calculated points and lines to canvas
             self.pattern.draw_points(points)
             self.pattern.draw_lines(points, angle, line_points, col=col)
-            self.pattern.points.extend(points)
 
             angle += step   
+        self.pattern.points.append(points_list)
 
     def calc_shape(self, center, angle=0, num_points=1):
         '''calculates shape points around a center point. the number of points can be specified'''

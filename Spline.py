@@ -29,7 +29,7 @@ class Spline():
         #calculates and draws the points on the spline
         even_points = self.get_even_points_on_curve(num_points=num_points)
         self.pattern.draw_points(even_points)
-        self.pattern.points.extend(even_points)
+        self.pattern.points.append(even_points)
         
     def get_even_points_on_curve(self, num_points=10):
         """

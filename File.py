@@ -66,7 +66,6 @@ class File():
                         start_point=(Point.from_polar(int(s['start_point'][0].value), int(s['start_point'][1].value))),
                         control_point=(Point.from_polar(int(s['control_point'][0].value), int(s['control_point'][1].value))),
                         end_point=(Point.from_polar(int(s['end_point'][0].value), int(s['end_point'][1].value))))
-                    
             self.I.len = round(self.page.length * self.conversion_fac /1000*1.1, 2) #multiply by 1.1 to account slack
             self.page.savePDF()
             if path is None:
@@ -120,7 +119,8 @@ class File():
 
         with open(output_path, "w") as f:
             f.write(start)
-            for p in self.page.points:
+            flat_points = [item for sublist in self.page.points for item in sublist]
+            for p in flat_points:
                 f.write(f"G1 X{p.cartesian[0]*self.conversion_fac + offset_x:.3f} Y{p.cartesian[1]*self.conversion_fac + offset_y:.3f} F4800;\n")
                 f.write("G1 Z0 F4800\n")
                 f.write("G1 Z15 F4800\n")
