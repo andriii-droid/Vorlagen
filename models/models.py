@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from point import Point
 
 @dataclass
-class PatternConfig:
+class SettingsConfig:
     '''Data contract for global pattern settings'''
     num_center_points: int
     center_point_radius: float

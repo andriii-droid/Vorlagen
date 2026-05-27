@@ -42,11 +42,11 @@ class PatternManagerPage:
         elif isinstance(row_instance, SplineRow):
             self.spline_list.remove(row_instance)
 
-    def get_data(self): # TODO
+    def get_config(self): # TODO
         '''Collect all the data from the splines and shapes and return it as an PatternConfig'''
         pattern_config = PatternConfig([])
         for shape in self.shape_list:
-            pattern_config.patterns.append(shape.get_data())
+            pattern_config.patterns.append(shape.get_config())
         for spline in self.spline_list:
-            pattern_config.patterns.append(spline.get_data())
+            pattern_config.patterns.append(spline.get_config())
         return pattern_config

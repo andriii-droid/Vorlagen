@@ -1,4 +1,4 @@
-from models.models import PatternConfig
+from models.models import PatternConfig, DrawingConfig, FileConfig, SettingsConfig
 from point import Point
 
 class PatternCoordinator():
@@ -8,19 +8,19 @@ class PatternCoordinator():
         #and file classes etc
         pass
 
-    def calculate_and_render(self, config: PatternConfig):
+    def calculate_and_render(self, pattern_config: PatternConfig, drawing_config: DrawingConfig, settings_config: SettingsConfig):
         pass
 
-    def _calculate(self, config: PatternConfig):
+    def _calculate(self, config: PatternConfig, settings_config: SettingsConfig):
         pass
 
-    def _render_to_ui(self):
+    def _render_to_ui(self, drawing_config: DrawingConfig):
         pass
 
-    def export_to_pdf(self):
+    def export_to_pdf(self, file_config: FileConfig):
         pass
 
-    def export_to_gcode(self):
+    def export_to_gcode(self, file_config: FileConfig):
         pass
 
     def optimize(self):

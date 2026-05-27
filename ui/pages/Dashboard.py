@@ -1,6 +1,7 @@
 from nicegui import ui, app
 from ui.components.pattern_manager import PatternManagerPage
 from pattern_coordinator import PatternCoordinator
+from models.models import SettingsConfig, FileConfig, DrawingConfig
 
 class DashboardPage():
     '''handles the dashboard'''
@@ -36,7 +37,7 @@ class DashboardPage():
                 
                 with ui.row().classes('w-full justify-between items-center mb-2'):
                     ui.label('Patterns').classes('text-lg font-semibold text-slate-700')
-                    self.circles = ui.switch('Points', value=True)
+                    self.points = ui.switch('Points', value=True)
                     self.lines = ui.switch('Lines', value=True)
                     self.sketch = ui.switch('Sketch', value=False)
                 ui.separator().classes('my-2')
@@ -44,7 +45,10 @@ class DashboardPage():
                     self.pattern_page.build()
                     
                 ui.button('Generate Pattern', icon='picture_as_pdf', 
-                          on_click=lambda: self.coordinator.calculate_and_render(self.pattern_page.get_data())).classes('w-full py-2 text-lg').props('color=primary')
+                          on_click=lambda: self.coordinator.calculate_and_render(pattern_config=self.pattern_page.get_config(),
+                                                                                 drawing_config=self.get_drawing_config(),
+                                                                                 settings_config=self.get_settings_config())
+                                                                                 ).classes('w-full py-2 text-lg').props('color=primary')
 
             # RIGHT COLUMN: Dynamic PDF Viewer Card
             # It starts hidden and reveals itself the first time you click "Generate"
@@ -62,3 +66,24 @@ class DashboardPage():
                     # (The lambda function formats the string dynamically)
                     label.bind_text_from(self.coordinator, 'string_length', backward=lambda l: f'Required string length: {l}m')            
                 self.pdf_frame = ui.element('iframe').classes('w-full h-full border-none rounded-lg')
+
+    def get_drawing_config(self):
+        return DrawingConfig(
+            draw_points=self.points.value,
+            draw_lines=self.lines.value,
+            draw_sketch=self.sketch.value,
+            draw_coordinates=self.cord.value
+        )
+
+    def get_file_config(self):
+        return FileConfig(
+            filename=self.filename_input,
+            gcode_offset_x=self.gcode_x.value,
+            gcode_offset_y=self.gcode_y.value
+        )
+    
+    def get_settings_config(self):
+        return SettingsConfig(
+            num_center_points=self.num_center_points.value,
+            center_point_radius=self.radius.value
+        )
