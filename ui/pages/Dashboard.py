@@ -30,7 +30,7 @@ class DashboardPage():
                 with ui.row().classes('w-full justify-between items-center mb-2'):
                     ui.label('Center').classes('text-lg font-semibold text-slate-700')
                     self.num_center_points = ui.number(label='Points', value=1, min=1, step=1).classes('w-24')
-                    self.radius = ui.slider(min=0, max=100, step=1, value=1).classes('w-32 intermediate-class')
+                    self.radius = ui.slider(min=0, max=100, step=1, value=0).classes('w-32 intermediate-class')
                     ui.label().bind_text_from(self.radius, 'value').classes('w-12 text-right')
                 ui.separator().classes('my-2')
 
