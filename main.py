@@ -1,5 +1,5 @@
 from nicegui import ui
-from Dashboard import DashboardPage
+from ui.pages.Dashboard import DashboardPage
 
 
 

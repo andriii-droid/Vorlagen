@@ -1,9 +1,14 @@
 from nicegui import ui, app
+from ui.components.ShapeManager import ShapeManagerPage
+from File import File
 
 
 class DashboardPage():
     def __init__(self):
-        pass
+        self.patterns_list = []
+        self.splines_list = []
+        self.f = File(self)
+        self.len = 0
 
     def build(self):
         ui.query('body').classes('bg-slate-100')
@@ -18,8 +23,8 @@ class DashboardPage():
                 self.filename_input = ui.input(label='Filename', placeholder='output', suffix='.pdf/.gcode').classes('w-full mb-4')
                 with ui.row().classes('w-full justify-between items-center mb-2'):
                     self.cord = ui.switch('Coordinates', value=False)
-                    self.gcode_x = ui.number(label='GCODE X Offset', value=f.read_gcode_offset_from_file()[0], min=0, step=0.01).classes('w-24')
-                    self.gcode_y = ui.number(label='GCODE Y Offset', value=f.read_gcode_offset_from_file()[1], min=0, step=0.01).classes('w-24')
+                    self.gcode_x = ui.number(label='GCODE X Offset', value=self.f.read_gcode_offset_from_file()[0], min=0, step=0.01).classes('w-24')
+                    self.gcode_y = ui.number(label='GCODE Y Offset', value=self.f.read_gcode_offset_from_file()[1], min=0, step=0.01).classes('w-24')
                 
                 ui.separator().classes('my-2')
                 with ui.row().classes('w-full justify-between items-center mb-2'):
@@ -37,15 +42,10 @@ class DashboardPage():
                     self.sketch = ui.switch('Sketch', value=False)
                 ui.separator().classes('my-2')
                 with ui.row().classes('w-full items-left mb-2'):
-                    ui.button('Add Shape', icon='add', on_click=self.add_pattern_row).props('outline size=sm color=primary')
-                    ui.button('Add Spline', icon='add', on_click=self.add_spline_row).props('outline size=sm color=primary')
-
-
-                self.patterns_container = ui.column().classes('w-full gap-3 mb-6')
-                with self.patterns_container:
-                    self.add_pattern_row() # Initial default row
+                    ShapeManager = ShapeManagerPage()
+                    ShapeManager.build()
                     
-                ui.button('Generate & View PDF', icon='picture_as_pdf', on_click=f.generate_pdf).classes('w-full py-2 text-lg').props('color=primary')
+                ui.button('Generate & View PDF', icon='picture_as_pdf', on_click=self.f.generate_pdf).classes('w-full py-2 text-lg').props('color=primary')
 
             # RIGHT COLUMN: Dynamic PDF Viewer Card
             # It starts hidden and reveals itself the first time you click "Generate"
@@ -54,7 +54,7 @@ class DashboardPage():
                 ui.label('PDF Preview').classes('text-lg font-bold text-slate-700 mb-2')
                 with ui.row():
                     ui.button('Save PDF', icon='save', on_click=lambda: f.save_current_pdf(path=self.filename_input.value)).props('flat color=green size=md')
-                    ui.button('Generate GCODE', icon='playlist_add', on_click=lambda: f.generate_gcode(path=self.filename_input.value)).props('flat color=blue size=md')
+                    ui.button('Generate GCODE', icon='playlist_add', on_click=lambda: self.f.generate_gcode(path=self.filename_input.value)).props('flat color=blue size=md')
                 with ui.row():
                     # 1. Create the label with a placeholder or initial text
                     label = ui.label()
