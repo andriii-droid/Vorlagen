@@ -22,10 +22,12 @@ class PatternCoordinator():
                 s.generate()
                 self.patterns.append(s)
             elif isinstance(pattern, SplineConfig):
-                pass #todo
+                s = Spline(pattern)
+                s.generate()
+                self.patterns.append(s)
 
     def _render_to_ui(self, drawing_config: DrawingConfig, pattern_config: PatternConfig):
-        pass
+        print(self.patterns)
 
     def export_to_pdf(self, file_config: FileConfig):
         pass
