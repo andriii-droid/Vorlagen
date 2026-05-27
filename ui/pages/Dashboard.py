@@ -5,6 +5,8 @@ from File import File
 
 class DashboardPage():
     def __init__(self):
+        self.shape_manager = ShapeManagerPage()
+
         self.f = File(self)
         self.len = 0
 
@@ -40,8 +42,7 @@ class DashboardPage():
                     self.sketch = ui.switch('Sketch', value=False)
                 ui.separator().classes('my-2')
                 with ui.row().classes('w-full items-left mb-2'):
-                    ShapeManager = ShapeManagerPage()
-                    ShapeManager.build()
+                    self.shape_manager.build()
                     
                 ui.button('Generate & View PDF', icon='picture_as_pdf', on_click=self.f.generate_pdf).classes('w-full py-2 text-lg').props('color=primary')
 
