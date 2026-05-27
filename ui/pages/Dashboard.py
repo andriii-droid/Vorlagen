@@ -74,23 +74,23 @@ class DashboardPage():
     def get_drawing_config(self):
         '''collects drawing config data'''
         return DrawingConfig(
-            draw_points=self.points.value,
-            draw_lines=self.lines.value,
-            draw_sketch=self.sketch.value,
-            draw_coordinates=self.cord.value
+            draw_points=bool(self.points.value),
+            draw_lines=bool(self.lines.value),
+            draw_sketch=bool(self.sketch.value),
+            draw_coordinates=bool(self.cord.value)
         )
 
     def get_file_config(self):
         '''collects file config data'''
         return FileConfig(
             filename=self.filename_input,
-            gcode_offset_x=self.gcode_x.value,
-            gcode_offset_y=self.gcode_y.value
+            gcode_offset_x=float(self.gcode_x.value),
+            gcode_offset_y=float(self.gcode_y.value)
         )
     
     def get_settings_config(self):
         '''collects setting config data'''
         return SettingsConfig(
-            num_center_points=self.num_center_points.value,
-            center_point_radius=self.radius.value
+            num_center_points=int(self.num_center_points.value),
+            center_point_radius=float(self.radius.value)
         )

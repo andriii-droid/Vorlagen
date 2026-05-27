@@ -1,5 +1,6 @@
 from nicegui import ui
 from models.models import ShapeConfig
+from point import Point
 
 class ShapeRow:
     def __init__(self, on_delete_callback):
@@ -50,5 +51,6 @@ class ShapeRow:
             size=self.size.value,
             hex_color=self.hex_color,
             offset=self.offset.value,
-            line_points=int(self.line_points.value)
+            line_points=int(self.line_points.value),
+            center=Point(0,0)
         )

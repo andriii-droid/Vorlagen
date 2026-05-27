@@ -32,6 +32,7 @@ class ShapeConfig:
     hex_color: str
     offset: float
     line_points: int
+    center: Point
 
 @dataclass
 class SplineConfig:
@@ -41,6 +42,7 @@ class SplineConfig:
     start_point: Point
     control_point: Point
     end_point: Point
+    center: Point
 
 @dataclass
 class PatternConfig:

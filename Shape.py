@@ -14,7 +14,7 @@ class Shape():
         angle = 0
         step = 360 / self.config.num_shapes
         for _ in range(self.config.num_shapes):     #calls calc_shape multiple times
-            points_tmp = self._calculate(angle=angle, num_points=self.config.shape_type, center=Point(0,0))
+            points_tmp = self._calculate(angle=angle, num_points=self.config.shape_type, center=self.config.center)
             if self.config.line_points != 0: #if there should be points genereted on each line, it gets calculated here
                 points_tmp = self._generate_points_on_shape(points=points_tmp, num_points=self.config.line_points)
             self._points.append(points_tmp)
@@ -31,7 +31,7 @@ class Shape():
         points.append(self._new_point(center, (self.config.size/2)*self.config.offset, 90+angle))
         rotation_angle = -360/num_points/2 + angle
         for _ in range(num_points - 1):
-            points.append(self._new_point(points[-1], self.config.size*math.sin(math.pi/num_points), rotation_angle)) #TODO
+            points.append(self._new_point(points[-1], self.config.size*math.sin(math.pi/num_points), rotation_angle))
             rotation_angle -= 360/num_points
         return points
     

@@ -46,13 +46,14 @@ class SplineRow:
     def get_config(self):
         """Helper method to extract current UI state into spline config object"""
         return SplineConfig(
-            show_spline=self.show_spline.value,
-            num_points=self.num_points.value,
+            show_spline=bool(self.show_spline.value),
+            num_points=int(self.num_points.value),
             start_point=Point.from_polar(angle_degrees=self.points_ui[0]['angle_input'].value,
                                          distance=self.points_ui[0]['dist_input'].value),
             control_point=Point.from_polar(angle_degrees=self.points_ui[1]['angle_input'].value,
                                          distance=self.points_ui[1]['dist_input'].value),
             end_point=Point.from_polar(angle_degrees=self.points_ui[2]['angle_input'].value,
-                                         distance=self.points_ui[2]['dist_input'].value)
+                                         distance=self.points_ui[2]['dist_input'].value),
+            center=Point(0,0)
             )
         
