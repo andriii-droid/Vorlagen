@@ -72,6 +72,7 @@ class DashboardPage():
                 self.pdf_frame = ui.element('iframe').classes('w-full h-full border-none rounded-lg')
 
     def get_drawing_config(self):
+        '''collects drawing config data'''
         return DrawingConfig(
             draw_points=self.points.value,
             draw_lines=self.lines.value,
@@ -80,6 +81,7 @@ class DashboardPage():
         )
 
     def get_file_config(self):
+        '''collects file config data'''
         return FileConfig(
             filename=self.filename_input,
             gcode_offset_x=self.gcode_x.value,
@@ -87,6 +89,7 @@ class DashboardPage():
         )
     
     def get_settings_config(self):
+        '''collects setting config data'''
         return SettingsConfig(
             num_center_points=self.num_center_points.value,
             center_point_radius=self.radius.value
