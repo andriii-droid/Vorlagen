@@ -5,8 +5,6 @@ from File import File
 
 class DashboardPage():
     def __init__(self):
-        self.patterns_list = []
-        self.splines_list = []
         self.f = File(self)
         self.len = 0
 
