@@ -24,7 +24,7 @@ class ShapeRow:
         with ui.row().classes('items-center w-full bg-slate-50 p-3 rounded-lg shadow-sm') as self.row:
             self.shape = ui.select(label='Shape', options=shape_options, value=3).classes('w-28')
             self.num_shapes = ui.number(label='Number', value=20, min=1, step=1).classes('w-24')
-            self.size = ui.number(label='Size', value=200, min=1).classes('w-24')
+            self.size = ui.number(label='Size', value=80, min=1).classes('w-24')
             
             # Simple color hex state stored on the class instance
             self.hex_color = '#000000'

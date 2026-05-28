@@ -27,7 +27,7 @@ class SplineRow:
                         default_angle = (i - 1) * 45
                         
                         angle_input = ui.number(label='Angle', value=default_angle, step=1).classes('w-24')
-                        dist_input = ui.number(label='Distance', value=100, min=1, step=1).classes('w-24')
+                        dist_input = ui.number(label='Distance', value=40, min=1, step=1).classes('w-24')
                         
                         # Store references to the active UI elements as a dictionary pair
                         self.points_ui.append({

@@ -1,7 +1,7 @@
 from nicegui import ui, app
 from ui.components.shape_row import ShapeRow
 from ui.components.spline_row import SplineRow
-from models.models import PatternConfig, SplineConfig, ShapeConfig
+from models.models import PatternConfig
 
 
 class PatternManagerPage:
@@ -17,6 +17,7 @@ class PatternManagerPage:
         ui.button('Add Spline', icon='add', on_click=self.add_spline_row).props('outline size=sm color=primary')
 
         self.container = ui.column().classes('w-full gap-2')
+        self.add_shape_row()
 
     def add_shape_row(self):
         '''add shape row'''
