@@ -61,7 +61,7 @@ class PatternCoordinator():
 
         if drawing_config.draw_lines: #Draws Points if configured
             if isinstance(pat, Spline):
-                pass
+                pass        #TODO
             elif isinstance(pat, Shape):
                 if pat.config.line_points == -1:
                     for pat in self.patterns:

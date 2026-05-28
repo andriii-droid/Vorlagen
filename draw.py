@@ -29,7 +29,7 @@ class Draw():
         for point_shape in point_list:
             for count, (p1, p2) in enumerate(zip(point_shape, point_shape[1:]+[point_shape[0]])):
                 x1 = p1.x + self._center_point.x
-                y1 = p1.y + self._center_point.y
+                y1 = p1.y + self._center_point.y    # TODO
                 x2 = p2.x + self._center_point.x
                 y2 = p2.y + self._center_point.y
                 content += f'''<line x1="{x1*self._scale_factor}" y1="{y1*self._scale_factor}" 
