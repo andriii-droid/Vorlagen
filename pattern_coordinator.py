@@ -56,9 +56,13 @@ class PatternCoordinator():
                       pattern_config: PatternConfig):
         '''draws points and lines to the ui'''
         self._canvas_content = ''''''
+        if drawing_config.draw_points: #Draws Points if configured
+            for pat in self.patterns:
+                self._canvas_content += self.draw.draw_points(pat.points)
 
-        for pat in self.patterns:
-            self._canvas_content += self.draw.draw_points(pat.points)
+        if drawing_config.draw_lines: #Draws Points if configured
+            for pat in self.patterns:
+                self._canvas_content += self.draw.draw_shape_lines(pat, pat.config.shape_type)
 
     def export_to_pdf(self, file_config: FileConfig):
         pass
