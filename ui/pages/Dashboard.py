@@ -1,4 +1,4 @@
-from nicegui import ui, app
+from nicegui import ui, events
 from ui.components.pattern_manager import PatternManagerPage
 from pattern_coordinator import PatternCoordinator
 from models.models import SettingsConfig, FileConfig, DrawingConfig
@@ -52,7 +52,7 @@ class DashboardPage():
                                                                                settings_config=self.get_settings_config())
                         ).classes('w-full py-2 text-lg').props('color=primary')
 
-            # RIGHT COLUMN: Preview Card
+                        # RIGHT COLUMN: Preview Card
             with ui.card().classes('p-6 shadow-lg rounded-xl bg-white h-[860px] items-center'):
                 
                 # Header and Actions row
@@ -68,11 +68,13 @@ class DashboardPage():
 
                 raw_svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 105 148" width="100%"></svg>'
                 blank_bg = f'data:image/svg+xml;utf8,{urllib.parse.quote(raw_svg)}'
-
-                with ui.element('div').classes('w-full flex-1 flex items-center justify-center bg-slate-50 rounded-xl p-4 border border-dashed border-slate-200 overflow-hidden'):
-                    self.preview_canvas = ui.interactive_image(blank_bg, cross=False).classes('h-full w-auto max-h-[700px] object-contain shadow-md rounded-lg bg-white')
                     
-                    self.preview_canvas.bind_content_from(self.coordinator, 'canvas_content')
+                # 2. Assign the click function directly to on_mouse
+                ii = ui.interactive_image(
+                    blank_bg, 
+                    cross=False).classes('h-full w-auto max-h-[700px] object-contain shadow-md rounded-lg bg-white')
+                ii.on('loaded', lambda e: ui.notify(f'loaded {e.args}'))
+                ii.bind_content_from(self.coordinator, 'canvas_content')
 
     def get_drawing_config(self):
         '''collects drawing config data'''
