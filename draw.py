@@ -28,21 +28,17 @@ class Draw():
         point_lists = [shape.points[i:i + shape.config.shape_type] for i in range(0, len(shape.points), shape.config.shape_type)]
         for point_shape in point_lists:
             for count, (p1, p2) in enumerate(zip(point_shape, point_shape[1:]+[point_shape[0]])):
-                x1 = p1.x + self._center_point.x
-                y1 = p1.y + self._center_point.y    # TODO
-                x2 = p2.x + self._center_point.x
-                y2 = p2.y + self._center_point.y
-                content += f'''<line x1="{x1*self._scale_factor}" y1="{y1*self._scale_factor}" 
-                x2="{x2*self._scale_factor}" y2="{y2*self._scale_factor}" fill="none" stroke="{shape.config.hex_color}" stroke-width=".2" />'''
+                p1 += self._center_point
+                p2 += self._center_point
+                content += f'''<line x1="{p1.x*self._scale_factor}" y1="{p1.y*self._scale_factor}" 
+                x2="{p2.x*self._scale_factor}" y2="{p2.y*self._scale_factor}" fill="none" stroke="{shape.config.hex_color}" stroke-width=".2" />'''
         return content
     
     def draw_lines_between_line_points(self, shape: Shape):
         content = ""
         for count, (p1, p2) in enumerate(zip(shape.points, shape.points[shape.config.line_points+2:]+shape.points[0:shape.config.line_points+2])):
-            x1 = p1.x + self._center_point.x
-            y1 = p1.y + self._center_point.y    # TODO
-            x2 = p2.x + self._center_point.x
-            y2 = p2.y + self._center_point.y
-            content += f'''<line x1="{x1*self._scale_factor}" y1="{y1*self._scale_factor}" 
-            x2="{x2*self._scale_factor}" y2="{y2*self._scale_factor}" fill="none" stroke="{shape.config.hex_color}" stroke-width=".2" />'''
+            p1 += self._center_point
+            p2 += self._center_point
+            content += f'''<line x1="{p1.x*self._scale_factor}" y1="{p1.y*self._scale_factor}" 
+            x2="{p2.x*self._scale_factor}" y2="{p2.y*self._scale_factor}" fill="none" stroke="{shape.config.hex_color}" stroke-width=".2" />'''
         return content
