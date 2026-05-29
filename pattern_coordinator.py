@@ -9,9 +9,10 @@ class PatternCoordinator():
     '''exposes functions to the dashboard manipulate patterns '''
     def __init__(self):
         self.patterns: list[Shape | Spline] = []
-        self.gcode = GCODE()
+        self.gcode = GCODE(self)
         self.draw = Draw()
         self._canvas_content = ''''''
+        self._gcode_offset_x = (0,0)
 
     def calculate_and_render(self, pattern_config: PatternConfig, 
                              drawing_config: DrawingConfig, 
@@ -67,18 +68,28 @@ class PatternCoordinator():
         pass
 
     def export_to_gcode(self, file_config: FileConfig):
-        pass
+        self.gcode.generate_gcode(file_config.filename)
 
     def optimize(self):
         pass
 
     @property
-    def gcode_offset_x(self):
-        return self.gcode.read_gcode_offset_from_file()[0]
+    def gcode_offset(self):
+        return self._gcode_offset
+    
+    @gcode_offset.setter
+    def gcode_offset(self, value):
+        self._gcode_offset = value
 
     @property
+    def gcode_offset_x(self):
+        print(self._gcode_offset)
+        return self._gcode_offset[0]
+    
+    @property
     def gcode_offset_y(self):
-        return self.gcode.read_gcode_offset_from_file()[1]
+        return self._gcode_offset[1]
+    
     
     @property
     def string_length(self):
