@@ -90,7 +90,6 @@ class PatternCoordinator():
     def gcode_offset_y(self):
         return self._gcode_offset[1]
     
-    
     @property
     def string_length(self):
         return 0
