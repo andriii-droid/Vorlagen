@@ -91,3 +91,5 @@ if __name__ == '__main__':
     print(p2.cartesian)
 
     print(p2)
+    p2 *= 3
+    print(p2)
