@@ -21,18 +21,30 @@ class Draw():
             content += f'''<circle cx="{x}" cy="{y}" r="1" fill="black" />'''
         return content
     
-    def draw_shape_lines(self, shape: Shape):
+    def draw_lines(self, drawing_config: DrawingConfig, pat: Shape | Spline):
+        pass
+    
+    def draw_shape_lines(self, shape: Shape, sketch=False):
+        if sketch:
+            col = "#ff0000"
+            stroke_width = 0.8
+            points = shape.sketch_points
+        else:
+            col = shape.config.hex_color
+            stroke_width = 0.2
+            points = shape.points
+
         content = ""
-        point_lists = [shape.points[i:i + shape.config.shape_type] for i in range(0, len(shape.points), shape.config.shape_type)]
+        point_lists = [points[i:i + shape.config.shape_type] for i in range(0, len(points), shape.config.shape_type)]
         for point_shape in point_lists:
             for (p1, p2) in zip(point_shape, point_shape[1:]+[point_shape[0]]):
                 p1 = (p1 + self._center_point) * self._scale_factor
                 p2 = (p2 + self._center_point)  * self._scale_factor
                 content += f'''<line x1="{p1.x}" y1="{p1.y}" 
-                x2="{p2.x}" y2="{p2.y}" fill="none" stroke="{shape.config.hex_color}" stroke-width=".2" />'''
+                x2="{p2.x}" y2="{p2.y}" fill="none" stroke="{col}" stroke-width="{stroke_width}" />'''
         return content
     
-    def draw_lines_between_line_points(self, shape: Shape):
+    def draw_lines_between_line_points(self, shape: Shape, sketch=False):
         content = ""
         for (p1, p2) in zip(shape.points, shape.points[shape.config.line_points+2:]+shape.points[0:shape.config.line_points+2]):
             p1 = (p1 + self._center_point) * self._scale_factor
