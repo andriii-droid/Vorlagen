@@ -67,7 +67,7 @@ class PatternCoordinator():
         pass
 
     def export_to_gcode(self, file_config: FileConfig):
-        self.gcode.generate_gcode(file_config.filename)
+        self.gcode.generate_gcode(self.patterns, path=file_config.filename)
 
     def optimize(self):
         pass

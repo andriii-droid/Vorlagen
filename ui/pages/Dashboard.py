@@ -88,7 +88,7 @@ class DashboardPage():
     def get_file_config(self):
         '''collects file config data'''
         return FileConfig(
-            filename=self.filename_input,
+            filename=self.filename_input.value,
             gcode_offset_x=float(self.gcode_x.value),
             gcode_offset_y=float(self.gcode_y.value)
         )
